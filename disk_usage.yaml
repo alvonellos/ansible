@@ -1,0 +1,13 @@
+---
+- name: Gather Disk Usage
+  hosts: your_target_group
+  become: true
+
+  tasks:
+    - name: Get Disk Usage
+      ansible.builtin.shell: df -h
+      register: disk_usage_output
+
+    - name: Display Disk Usage
+      ansible.builtin.debug:
+        var: disk_usage_output.stdout_lines
