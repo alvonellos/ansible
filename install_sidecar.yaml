@@ -11,16 +11,16 @@
     - name: Download and install Graylog Sidecar
       get_url:
         url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.1.0/graylog-sidecar_1.1.0-1_amd64.deb"
-        dest: "/tmp/graylog-sidecar.deb"
+        dest: "/root/graylog-sidecar.deb"
 
     - name: Install Graylog Sidecar package
       apt:
-        deb: "/tmp/graylog-sidecar.deb"
+        deb: "/root/graylog-sidecar.deb"
       when: ansible_distribution == "Ubuntu"
 
     - name: Install Graylog Sidecar package
       yum:
-        name: "/tmp/graylog-sidecar.rpm"
+        name: "/root/graylog-sidecar.rpm"
       when: ansible_distribution == "CentOS"
 
     - name: Fetch sidecar.yml from remote host
