@@ -44,3 +44,22 @@
       systemd:
         name: graylog-sidecar
         state: restarted
+
+- name: Add syslog forwarding configuration to rsyslog
+  hosts: your_target_hosts
+  become: yes
+
+  tasks:
+    - name: Add syslog forwarding configuration to rsyslog
+      lineinfile:
+        path: /etc/rsyslog.conf
+        line: "*.* @logs.home.alvonellos.com:514;RSYSLOG_SyslogProtocol23Format"
+        insertbefore: EOF  # Insert before the EOF (end of file) marker
+      notify:
+        - Restart rsyslog
+
+  handlers:
+    - name: Restart rsyslog
+      service:
+        name: rsyslog
+        state: restarted
