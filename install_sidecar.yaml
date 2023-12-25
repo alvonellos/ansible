@@ -23,33 +23,16 @@
         name: "/tmp/graylog-sidecar.rpm"
       when: ansible_distribution == "CentOS"
 
-    - name: Fetch Graylog Sidecar configuration
-      hosts: your_graylog_sidecar_hosts
-      become: yes
+    - name: Fetch sidecar.yml from remote host
+      command: scp root@pihole0.home.alvonellos.com:/etc/graylog/sidecar/sidecar.yml /etc/graylog/sidecar/sidecar.yml
+      delegate_to: localhost
 
-      tasks:
-        - name: Fetch sidecar.yml from remote host
-          command: scp root@pihole0.home.alvonellos.com:/etc/graylog/sidecar/sidecar.yml /etc/graylog/sidecar/sidecar.yml
-          delegate_to: localhost
+    - name: Copy the fetched file to the local machine
+      fetch:
+        src: /tmp/sidecar.yml
+        dest: ./sidecar_configs/
+        flat: yes
 
-        - name: Copy the fetched file to the local machine
-          fetch:
-            src: /tmp/sidecar.yml
-            dest: ./sidecar_configs/
-            flat: yes
-
-
-  handlers:
-    - name: Restart Graylog Sidecar
-      systemd:
-        name: graylog-sidecar
-        state: restarted
-
-- name: Add syslog forwarding configuration to rsyslog
-  hosts: your_target_hosts
-  become: yes
-
-  tasks:
     - name: Add syslog forwarding configuration to rsyslog
       lineinfile:
         path: /etc/rsyslog.conf
@@ -58,8 +41,13 @@
       notify:
         - Restart rsyslog
 
-  handlers:
-    - name: Restart rsyslog
-      service:
-        name: rsyslog
-        state: restarted
+
+handlers:
+  - name: Restart Graylog Sidecar
+    systemd:
+      name: graylog-sidecar
+      state: restarted
+  - name: Restart rsyslog
+    service:
+      name: rsyslog
+      state: restarted
