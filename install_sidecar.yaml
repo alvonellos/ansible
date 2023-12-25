@@ -1,6 +1,6 @@
 ---
 - name: Install Graylog Sidecar
-  hosts: your_graylog_sidecar_hosts
+  hosts: all
   become: yes
 
   vars:
