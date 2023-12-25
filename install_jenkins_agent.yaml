@@ -15,7 +15,7 @@
         name: "{{ item }}"
         state: present
       loop:
-        - openjdk-11-jre-headless
+        - default-jdk-headless
         - git
         - curl
         - unzip
