@@ -15,7 +15,7 @@
 
     - name: Download and install Graylog Sidecar
       get_url:
-        url: "wget https://packages.graylog2.org/repo/packages/graylog-sidecar-repository_1-5_all.deb"
+        url: "https://packages.graylog2.org/repo/packages/graylog-sidecar-repository_1-5_all.deb"
         dest: "/root/graylog-sidecar.rpm"
       when: ansible_distribution == "CentOS"
 
