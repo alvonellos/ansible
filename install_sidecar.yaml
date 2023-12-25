@@ -33,8 +33,7 @@
     - name: Add syslog forwarding configuration to rsyslog
       blockinfile:
         path: /etc/rsyslog.d/remote-logging.conf
-        block: |
-        *.* @logs.home.alvonellos.com:514;RSYSLOG_SyslogProtocol23Format
+        block: "*.* @logs.home.alvonellos.com:514;RSYSLOG_SyslogProtocol23Format"
         create: yes
       notify:
         - Restart rsyslog
