@@ -25,6 +25,7 @@
         url: "http://jenkins.home.alvonellos.com:8080/jnlpJars/agent.jar"
         dest: /var/lib/jenkins-agent/agent.jar
         mode: 0755
+        validate_certs: no
 
     - name: Create Jenkins agent service file
       template:
