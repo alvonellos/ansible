@@ -11,7 +11,7 @@
       get_url:
         url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.1.0/graylog-sidecar_1.1.0-1_amd64.deb"
         dest: "/root/graylog-sidecar.deb"
-      when: ansible_distribution == "Ubuntu" || ansible_distribution == "Debian"
+      when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
     - name: Download and install Graylog Sidecar
       get_url:
@@ -22,7 +22,7 @@
     - name: Install Graylog Sidecar package on Ubuntu
       apt:
         deb: "/root/graylog-sidecar.deb"
-      when: ansible_distribution == "Ubuntu" || ansible_distribution == "Debian"
+      when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
     - name: Install Graylog Sidecar package on CentOS
       yum:
