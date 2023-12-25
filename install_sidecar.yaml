@@ -41,13 +41,13 @@
       notify:
         - Restart rsyslog
 
+  handlers:
+    - name: Restart Graylog Sidecar
+      systemd:
+        name: graylog-sidecar
+        state: restarted
 
-handlers:
-  - name: Restart Graylog Sidecar
-    systemd:
-      name: graylog-sidecar
-      state: restarted
-  - name: Restart rsyslog
-    service:
-      name: rsyslog
-      state: restarted
+    - name: Restart rsyslog
+      service:
+        name: rsyslog
+        state: restarted
