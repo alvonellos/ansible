@@ -1,5 +1,6 @@
 ---
 - name: Install Jenkins Agent
+  jenkins_agent_secret: "b8c80148ce36de10c9358384fac9e28fbba941055a9a6ab2277e75ddc29a8744"
   hosts: all
   become: yes  # Run tasks with sudo
 
