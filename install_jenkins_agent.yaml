@@ -19,6 +19,15 @@
         - git
         - curl
         - unzip
+        - maven
+        - containerd
+        - docker-ce
+        - gradle
+
+    - name: Create Jenkins agent directory
+      file:
+        path: "/var/lib/jenkins-agent"
+        state: directory
 
     - name: Download Jenkins agent JAR file
       get_url:
