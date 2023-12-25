@@ -1,0 +1,57 @@
+---
+- name: Install Java 8, Java 11, and Java 17
+  hosts: all
+  become: yes  # Run tasks with sudo
+
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Add OpenJDK 8 repository
+      apt_repository:
+        repo: ppa:openjdk-r/ppa
+        state: present
+
+    - name: Install OpenJDK 8
+      apt:
+        name: openjdk-8-jdk
+        state: present
+
+    - name: Add OpenJDK 11 repository
+      apt_repository:
+        repo: ppa:openjdk-r/ppa
+        state: present
+        vars:
+          openjdk_version: 11
+
+    - name: Install OpenJDK 11
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Add AdoptOpenJDK 17 repository
+      apt_repository:
+        repo: deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ {{ ansible_distribution_release }} main
+        state: present
+        filename: adoptopenjdk.list
+        update_cache: yes
+        keyserver: keyserver.ubuntu.com
+        key_id: 7B2C3B0889BF5709A105D03AC2518248EEA14886
+
+    - name: Install AdoptOpenJDK 17
+      apt:
+        name: adoptopenjdk-17-hotspot
+        state: present
+
+    - name: Set Java 17 as the default
+      alternatives:
+        name: java
+        path: /usr/lib/jvm/adoptopenjdk-17-hotspot-amd64/bin/java
+
+    - name: Display default Java version
+      command: java -version
+      register: java_version_output
+
+    - debug:
+        var: java_version_output.stdout_lines

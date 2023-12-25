@@ -1,6 +1,6 @@
 ---
 - name: Gather Disk Usage
-  hosts: your_target_group
+  hosts: all
   become: true
 
   tasks:

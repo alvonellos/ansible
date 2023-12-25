@@ -1,0 +1,40 @@
+---
+- name: Install Jenkins Agent
+  hosts: all
+  become: yes  # Run tasks with sudo
+
+  tasks:
+    - name: Create Jenkins agent user
+      user:
+        name: jenkins-agent
+        home: /var/lib/jenkins-agent
+        system: yes
+
+    - name: Install Jenkins agent dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - openjdk-11-jre-headless
+        - git
+        - curl
+        - unzip
+
+    - name: Download Jenkins agent JAR file
+      get_url:
+        url: "https://your.jenkins.server/jnlpJars/agent.jar"
+        dest: /var/lib/jenkins-agent/agent.jar
+        mode: 0755
+
+    - name: Create Jenkins agent service file
+      template:
+        src: jenkins-agent.service.j2
+        dest: /etc/systemd/system/jenkins-agent.service
+      notify:
+        - Restart Jenkins Agent
+
+  handlers:
+    - name: Restart Jenkins Agent
+      systemd:
+        name: jenkins-agent
+        state: restarted
