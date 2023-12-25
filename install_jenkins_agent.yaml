@@ -19,10 +19,6 @@
         - git
         - curl
         - unzip
-        - maven
-        - containerd
-        - docker-ce
-        - gradle
 
     - name: Create Jenkins agent directory
       file:
