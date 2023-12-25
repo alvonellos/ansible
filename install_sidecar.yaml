@@ -31,10 +31,11 @@
       when: ansible_distribution == "CentOS"
 
     - name: Add syslog forwarding configuration to rsyslog
-      lineinfile:
-        path: /etc/rsyslog.conf
-        line: "*.* @logs.home.alvonellos.com:514;RSYSLOG_SyslogProtocol23Format"
-        insertbefore: EOF  # Insert before the EOF (end of file) marker
+      blockinfile:
+        path: /etc/rsyslog.d/remote-logging.conf
+        block: |
+        *.* @logs.home.alvonellos.com:514;RSYSLOG_SyslogProtocol23Format
+        create: yes
       notify:
         - Restart rsyslog
 
