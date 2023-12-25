@@ -22,7 +22,7 @@
 
     - name: Download Jenkins agent JAR file
       get_url:
-        url: "https://jenkins.home.alvonellos.com:8080/jnlpJars/agent.jar"
+        url: "http://jenkins.home.alvonellos.com:8080/jnlpJars/agent.jar"
         dest: /var/lib/jenkins-agent/agent.jar
         mode: 0755
 
