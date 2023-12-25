@@ -9,3 +9,19 @@
       apt:
         upgrade: yes
         update_cache: yes
+  tasks:
+    - name: Update and upgrade apt dist
+      become: true
+      apt:
+        upgrade: dist
+        update_cache: yes
+
+    - name: Remove unused packages
+      become: true
+      apt:
+        autoremove: yes
+
+    - name: Clean up package cache
+      become: true
+      apt:
+        autoclean: yes
