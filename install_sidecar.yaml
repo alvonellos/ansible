@@ -9,13 +9,13 @@
   tasks:
     - name: Download and install Graylog Sidecar
       get_url:
-        url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.5.0/graylog-sidecar_1.1.0-1_amd64.deb"
+        url: "wget https://packages.graylog2.org/repo/packages/graylog-sidecar-repository_1-5_all.deb"
         dest: "/root/graylog-sidecar.deb"
       when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
     - name: Download and install Graylog Sidecar
       get_url:
-        url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.5.0/graylog-sidecar-1.1.0-1.x86_64.rpm"
+        url: "wget https://packages.graylog2.org/repo/packages/graylog-sidecar-repository_1-5_all.deb"
         dest: "/root/graylog-sidecar.rpm"
       when: ansible_distribution == "CentOS"
 
