@@ -42,20 +42,18 @@
       notify:
         - Restart rsyslog
 
-    - name: Copy file from remote host to local machine
-      command: "scp {{ remote_username }}@{{ remote_hostname }}:{{ remote_source_path }} {{ local_destination_path }}"
-      delegate_to: localhost
-
     - name: Install Graylog Sidecar service
       command: "sudo graylog-sidecar -service install"
+
+    - name: Create Graylog agent service file
+      template:
+        src: graylog.sidecar.yaml.j2
+        dest: /etc/graylog/sidecar/sidecar.yml
+      notify:
+        - Restart Graylog Sidecar
 
   handlers:
     - name: Restart Graylog Sidecar
       systemd:
         name: graylog-sidecar
-        state: restarted
-
-    - name: Restart rsyslog
-      service:
-        name: rsyslog
         state: restarted
