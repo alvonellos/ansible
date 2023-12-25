@@ -12,26 +12,23 @@
       get_url:
         url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.1.0/graylog-sidecar_1.1.0-1_amd64.deb"
         dest: "/root/graylog-sidecar.deb"
+      when: ansible_distribution == "Ubuntu"
 
-    - name: Install Graylog Sidecar package
+    - name: Download and install Graylog Sidecar
+      get_url:
+        url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.1.0/graylog-sidecar-1.1.0-1.x86_64.rpm"
+        dest: "/root/graylog-sidecar.rpm"
+      when: ansible_distribution == "CentOS"
+
+    - name: Install Graylog Sidecar package on Ubuntu
       apt:
         deb: "/root/graylog-sidecar.deb"
       when: ansible_distribution == "Ubuntu"
 
-    - name: Install Graylog Sidecar package
+    - name: Install Graylog Sidecar package on CentOS
       yum:
         name: "/root/graylog-sidecar.rpm"
       when: ansible_distribution == "CentOS"
-
-    - name: Fetch sidecar.yml from remote host
-      command: scp root@pihole0.home.alvonellos.com:/etc/graylog/sidecar/sidecar.yml /etc/graylog/sidecar/sidecar.yml
-      delegate_to: localhost
-
-    - name: Copy the fetched file to the local machine
-      fetch:
-        src: /tmp/sidecar.yml
-        dest: ./sidecar_configs/
-        flat: yes
 
     - name: Add syslog forwarding configuration to rsyslog
       lineinfile:
@@ -40,6 +37,11 @@
         insertbefore: EOF  # Insert before the EOF (end of file) marker
       notify:
         - Restart rsyslog
+
+    - name: Copy sidecar.yml to remote host
+      copy:
+        src: /path/to/local/sidecar.yml
+        dest: /etc/graylog/sidecar/sidecar.yml
 
   handlers:
     - name: Restart Graylog Sidecar
