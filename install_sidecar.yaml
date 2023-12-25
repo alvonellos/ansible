@@ -6,11 +6,6 @@
   vars:
     graylog_server_url: "http://logs.home.alvonellos.com:9000/api"
     graylog_server_api_token: "16cs4hi20rlft961obn2e18cj75fmhehmdvmhhn6dlkec3jfloes"
-    local_destination_path: "/etc/graylog/sidecar/sidecar.yml"
-    remote_source_path: "/etc/graylog/sidecar/sidecar.yml"
-    remote_username: "root"
-    remote_hostname: "cluster-node0"
-
   tasks:
     - name: Download and install Graylog Sidecar
       get_url:
@@ -33,12 +28,6 @@
       yum:
         name: "/root/graylog-sidecar.rpm"
       when: ansible_distribution == "CentOS"
-
-    - name: Add syslog forwarding configuration to rsyslog
-      blockinfile:
-        path: /etc/rsyslog.d/remote-logging.conf
-        block: "*.* @logs.home.alvonellos.com:514;RSYSLOG_SyslogProtocol23Format"
-        create: yes
 
     - name: Install Graylog Sidecar service
       command: "sudo graylog-sidecar -service install"
