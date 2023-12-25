@@ -9,13 +9,13 @@
   tasks:
     - name: Download and install Graylog Sidecar
       get_url:
-        url: "https://github.com/alvonellos/ansible/blob/main/package/graylog-sidecar-repository_1-5_all.deb"
+        url: "https://github.com/alvonellos/ansible/raw/main/package/graylog-sidecar-repository_1-5_all.deb"
         dest: "/root/graylog-sidecar.deb"
       when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
     - name: Download and install Graylog Sidecar
       get_url:
-        url: "https://github.com/alvonellos/ansible/blob/main/package/graylog-sidecar-repository_1-5_all.deb"
+        url: "https://github.com/alvonellos/ansible/raw/main/package/graylog-sidecar-repository_1-5_all.deb"
         dest: "/root/graylog-sidecar.rpm"
       when: ansible_distribution == "CentOS"
 
