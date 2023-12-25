@@ -1,0 +1,9 @@
+[Unit]
+Description=Jenkins Agent
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/java -jar /var/lib/jenkins-agent/agent.jar -jnlpUrl https://jenkins.home.alvonellos.com:8080/computer/{{ inventory_hostname }}/jenkins-agent.jnlp -secret {{ jenkins_agent_secret }}
+
+[Install]
+WantedBy=multi-user.target
