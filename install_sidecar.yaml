@@ -44,6 +44,9 @@
         src: /path/to/local/sidecar.yml
         dest: /etc/graylog/sidecar/sidecar.yml
 
+    - name: Install Graylog Sidecar service
+      command: "sudo graylog-sidecar -service install"
+
   handlers:
     - name: Restart Graylog Sidecar
       systemd:
