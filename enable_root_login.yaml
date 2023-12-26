@@ -4,13 +4,13 @@
 
   tasks:
     - name: Enable Root Login
+      become: true
       lineinfile:
         dest: /etc/ssh/sshd_config
         regexp: '^PermitRootLogin'
         line: "PermitRootLogin yes"
         state: present
         backup: no
-      become: yes
       notify:
         - restart ssh
 
