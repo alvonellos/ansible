@@ -1,0 +1,27 @@
+- name: Install Docker and Maven
+  hosts: all
+  become: true  # Run tasks with sudo
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'  # Adjust for other package managers
+
+    - name: Install Docker
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+      when: ansible_os_family == 'Debian'  # Adjust for other package managers
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Maven
+      apt:
+        name: maven
+      when: ansible_os_family == 'Debian'  #
