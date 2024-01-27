@@ -83,7 +83,7 @@
       path: /usr/local/bin/kubectl
     register: kubectl_binary_usr_local_bin
 
-  - name: Delete old kubectl binary if it exists
+  - name: Rename the kubectl binary if it exists
     copy:
       src: /home/{{ ansible_user }}/kubectl
       dest: /home/{{ ansible_user }}/kubectl.{{ strftime(ansible_date_time.epoch) }}
