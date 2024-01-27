@@ -33,13 +33,13 @@
     file:
       path: /home/{{ ansible_user }}/kubectl
       state: absent
-    when: kubectl_binary_home.exists
+    when: kubectl_binary_home.stat.exists
 
   - name: Delete checksum file from home directory
     file:
       path: /home/{{ ansible_user }}/kubectl.sha256
       state: absent
-    when: kubectl_chksum_home.exists
+    when: kubectl_chksum_home.stat.exists
 
   - name: Get latest kubectl version
     uri:
@@ -89,7 +89,7 @@
       dest: /home/{{ ansible_user }}/kubectl.{{ strftime(ansible_date_time.epoch) }}
       remote_src: yes
       mode: 0755
-    when: kubectl_binary_usr_local_bin.exists
+    when: kubectl_binary_usr_local_bin.stat.exists
 
   - name: Move kubectl and change permissions
     file:
