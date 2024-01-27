@@ -38,17 +38,21 @@
       status_code: 200, 304
 
   - name: Validate the kubectl binary against the checksum file
-    shell: echo "$(cat /home/{{ ansible_user }}/kubectl.sha256)  kubectl" | sha256sum --check
-    register: result
+    shell: echo "$(cat /home/{{ ansible_user }}/kubectl.sha256)"
+    register: source_chksum
+
+  - name: Compute new checksum of kubectl binary
+    shell: sha256sum /home/{{ ansible_user }}/kubectl | awk '{print $1}'
+    register: new_chksum
 
   - name: Assert that the kubectl binary is OK
     vars:
       expected: "kubectl: OK"
     assert:
       that:
-        - result.stdout == expected
-      fail_msg: "{{ result.stdout }}"
-      success_msg: "{{ result.stdout }}"
+        - source_chksum.stdout == new_chksum.stdout
+      fail_msg: "Checksum does not match {{ source_chksum.stdout }} != {{ new_chksum.stdout}"
+      success_msg: "Successfully validated"
 
   - name: Move kubectl and change permissions
     file:
