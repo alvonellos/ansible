@@ -1,4 +1,8 @@
 ---
+- name: Install KubeCtl
+  hosts: all
+  become: yes
+
 - name: Get latest kubectl version
   uri:
     url: https://dl.k8s.io/release/stable.txt
