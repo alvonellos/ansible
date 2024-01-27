@@ -84,9 +84,11 @@
     register: kubectl_binary_usr_local_bin
 
   - name: Rename the kubectl binary if it exists
-    copy:
+    file:
       src: /usr/local/bin/kubectl
       dest: /home/{{ ansible_user }}/kubectl.{{ ansible_date_time.epoch }}
+      owner: root
+      group: root
       remote_src: yes
       mode: 0755
     when: kubectl_binary_usr_local_bin.stat.exists
