@@ -22,7 +22,6 @@
     register:
       kubectl_binary_home
 
-
   - name: Check for kubectl checksum in home directory
     stat:
       path: /home/{{ ansible_user }}/kubectl
@@ -83,20 +82,16 @@
       path: /usr/local/bin/kubectl
     register: kubectl_binary_usr_local_bin
 
-  - name: Rename the kubectl binary if it exists
+  - name: Delete kubectl binary from /usr/local/bin if it exists
     file:
-      src: /usr/local/bin/kubectl
-      dest: /home/{{ ansible_user }}/kubectl.{{ ansible_date_time.epoch }}
-      owner: root
-      group: root
-      mode: 0755
-    when: kubectl_binary_usr_local_bin.stat.exists
+      path: /usr/local/bin/kubectl
+      state: absent
+    when: kubectl_binary_home.stat.exists
 
-  - name: Move kubectl and change permissions
-    file:
+  - name: Copy kubectl and change permissions
+    copy:
       src: "{{ kubectl.path }}"
       dest: /usr/local/bin/kubectl
-      state: hard
       owner: root
       group: root
       mode: "+x"
@@ -105,3 +100,13 @@
     shell: kubectl version --client
     register: client
     failed_when: client.rc > 1
+
+  - name: remove downloaded binaries from home
+    file:
+      path: /home/{{ ansible_user }}/kubectl
+      state: absent
+
+  - name: remove downloaded checksums from home
+    file:
+      path: /home/{{ ansible_user }}/kubectl.sha256
+      state: absent
