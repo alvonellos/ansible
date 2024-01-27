@@ -85,7 +85,7 @@
 
   - name: Rename the kubectl binary if it exists
     copy:
-      src: /home/{{ ansible_user }}/kubectl
+      src: /usr/local/bin/kubectl
       dest: /home/{{ ansible_user }}/kubectl.{{ strftime(ansible_date_time.epoch) }}
       remote_src: yes
       mode: 0755
