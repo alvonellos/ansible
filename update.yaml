@@ -12,7 +12,7 @@
     - name: Update and upgrade apt dist
       become: true
       apt:
-        dist: yes
+        upgrade: dist
         update_cache: yes
 
     - name: Remove unused packages
