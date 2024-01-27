@@ -3,7 +3,20 @@
   hosts: all
   become: yes
 
+
   tasks:
+  - name: Check if home directory exists
+    stat:
+      path: /home/{{ ansible_user }}
+    register: home_dir
+
+  - name: Create home directory if it doesn't exist
+    file:
+      path: /home/{{ ansible_user }}
+      state: directory
+    when: not home_dir.stat.exists
+
+
   - name: Get latest kubectl version
     uri:
       url: https://dl.k8s.io/release/stable.txt
@@ -17,12 +30,6 @@
       dest: /home/{{ ansible_user }}
       status_code: 304
     register: kubectl
-
-  - name: Download the kubectl checksum file
-    uri:
-      url: https://dl.k8s.io/{{ version.content }}/bin/linux/arm/kubectl.sha256
-      dest: /home/{{ ansible_user }}
-      status_code: 304
 
   - name: Download the kubectl checksum file
     uri:
