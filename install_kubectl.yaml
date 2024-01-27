@@ -78,13 +78,18 @@
       fail_msg: "Checksum does not match {{ source_chksum.stdout }} != {{ new_chksum.stdout }}"
       success_msg: "Successfully validated"
 
-  - name: Backup old kubectl binary if it exists
+  - name: Check if kubectl installed in /usr/local/bin
+    stat:
+      path: /usr/local/bin/kubectl
+    register: kubectl_binary_usr_local_bin
+
+  - name: Delete old kubectl binary if it exists
     copy:
       src: /home/{{ ansible_user }}/kubectl
-      dest: /home/{{ ansible_user }}/kubectl.old
+      dest: /home/{{ ansible_user }}/kubectl.{{ strftime(ansible_date_time.epoch) }}
       remote_src: yes
       mode: 0755
-    when: kubectl.status == 200
+    when: kubectl_binary_usr_local_bin.exists
 
   - name: Move kubectl and change permissions
     file:
