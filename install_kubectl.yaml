@@ -86,7 +86,7 @@
   - name: Rename the kubectl binary if it exists
     copy:
       src: /usr/local/bin/kubectl
-      dest: /home/{{ ansible_user }}/kubectl.{{ strftime(ansible_date_time.epoch) }}
+      dest: /home/{{ ansible_user }}/kubectl.{{ ansible_date_time.epoch }}
       remote_src: yes
       mode: 0755
     when: kubectl_binary_usr_local_bin.stat.exists
