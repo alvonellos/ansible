@@ -51,7 +51,7 @@
     assert:
       that:
         - source_chksum.stdout == new_chksum.stdout
-      fail_msg: "Checksum does not match {{ source_chksum.stdout }} != {{ new_chksum.stdout}"
+      fail_msg: "Checksum does not match {{ source_chksum.stdout }} != {{ new_chksum.stdout }}"
       success_msg: "Successfully validated"
 
   - name: Move kubectl and change permissions
