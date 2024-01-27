@@ -1,6 +1,6 @@
 ---
-- name: update cluster
-  hosts: cluster
+- name: update
+  hosts: all
   remote_user: root
 
   tasks:
@@ -9,11 +9,10 @@
       apt:
         upgrade: yes
         update_cache: yes
-  tasks:
     - name: Update and upgrade apt dist
       become: true
       apt:
-        upgrade: dist
+        dist: yes
         update_cache: yes
 
     - name: Remove unused packages
