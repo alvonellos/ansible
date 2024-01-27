@@ -89,7 +89,6 @@
       dest: /home/{{ ansible_user }}/kubectl.{{ ansible_date_time.epoch }}
       owner: root
       group: root
-      remote_src: yes
       mode: 0755
     when: kubectl_binary_usr_local_bin.stat.exists
 
