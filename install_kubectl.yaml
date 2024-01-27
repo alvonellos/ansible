@@ -90,7 +90,8 @@
 
   - name: Copy kubectl and change permissions
     copy:
-      remote_src: "{{ kubectl.path }}"
+      src: "{{ kubectl.path }}"
+      remote_src: yes
       dest: /usr/local/bin/kubectl
       owner: root
       group: root
