@@ -35,7 +35,7 @@
     uri:
       url: https://dl.k8s.io/{{ version.content }}/bin/linux/arm/kubectl.sha256
       dest: /home/{{ ansible_user }}
-      status_code: 304
+      status_code: 200
 
   - name: Validate the kubectl binary against the checksum file
     shell: echo "$(cat /home/{{ ansible_user }}/kubectl.sha256)  kubectl" | sha256sum --check
