@@ -1,17 +1,18 @@
 ---
 - name: Manage Proxmox services
-  hosts: all
+  hosts: proxmox_servers
   become: yes
   serial: 1
   tasks:
     - name: Check pvecm status for CMAP service
       command: pvecm status
       register: pvecm_status
+      ignore_errors: yes
       changed_when: false
 
     - name: Set flag if CMAP service is not active
       set_fact:
-        cmap_not_active: "{{ 'Cannot initialize CMAP service' in pvecm_status.stdout }}"
+        cmap_not_active: "{{ 'Cannot initialize CMAP service' in pvecm_status.stderr }}"
 
     - name: Stop pve-cluster service
       service:
