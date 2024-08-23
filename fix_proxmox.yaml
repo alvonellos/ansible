@@ -44,31 +44,6 @@
         state: stopped
       when: cmap_not_active
 
-    - name: Check pve-cluster service status
-      command: service pve-cluster status
-      register: pve_cluster_status
-      when: cmap_not_active
-
-    - name: Check corosync service status
-      command: service corosync status
-      register: corosync_status
-      when: cmap_not_active
-
-    - name: Check pvestatd service status
-      command: service pvestatd status
-      register: pvestatd_status
-      when: cmap_not_active
-
-    - name: Check pveproxy service status
-      command: service pveproxy status
-      register: pveproxy_status
-      when: cmap_not_active
-
-    - name: Check pvedaemon service status
-      command: service pvedaemon status
-      register: pvedaemon_status
-      when: cmap_not_active
-
     - name: Start pve-cluster service
       service:
         name: pve-cluster
