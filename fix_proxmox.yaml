@@ -1,6 +1,6 @@
 ---
 - name: Manage Proxmox services
-  hosts: proxmox_servers
+  hosts: all
   become: yes
   serial: 1
   tasks:
