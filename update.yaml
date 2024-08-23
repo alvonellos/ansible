@@ -1,9 +1,12 @@
----
 - name: update
   hosts: all
   remote_user: root
 
   tasks:
+    - name: Run dpkg --configure -a
+      become: true
+      shell: dpkg --configure -a
+
     - name: Update and upgrade apt
       become: true
       apt:
