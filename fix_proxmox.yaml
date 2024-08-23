@@ -1,0 +1,129 @@
+---
+- name: Manage Proxmox services
+  hosts: proxmox_servers
+  become: yes
+  serial: 1
+  tasks:
+    - name: Check pvecm status for CMAP service
+      command: pvecm status
+      register: pvecm_status
+      changed_when: false
+
+    - name: Set flag if CMAP service is not active
+      set_fact:
+        cmap_not_active: "{{ 'Cannot initialize CMAP service' in pvecm_status.stdout }}"
+
+    - name: Stop pve-cluster service
+      service:
+        name: pve-cluster
+        state: stopped
+      when: cmap_not_active
+
+    - name: Stop corosync service
+      service:
+        name: corosync
+        state: stopped
+      when: cmap_not_active
+
+    - name: Stop pvestatd service
+      service:
+        name: pvestatd
+        state: stopped
+      when: cmap_not_active
+
+    - name: Stop pveproxy service
+      service:
+        name: pveproxy
+        state: stopped
+      when: cmap_not_active
+
+    - name: Stop pvedaemon service
+      service:
+        name: pvedaemon
+        state: stopped
+      when: cmap_not_active
+
+    - name: Check pve-cluster service status
+      command: service pve-cluster status
+      register: pve_cluster_status
+      when: cmap_not_active
+
+    - name: Check corosync service status
+      command: service corosync status
+      register: corosync_status
+      when: cmap_not_active
+
+    - name: Check pvestatd service status
+      command: service pvestatd status
+      register: pvestatd_status
+      when: cmap_not_active
+
+    - name: Check pveproxy service status
+      command: service pveproxy status
+      register: pveproxy_status
+      when: cmap_not_active
+
+    - name: Check pvedaemon service status
+      command: service pvedaemon status
+      register: pvedaemon_status
+      when: cmap_not_active
+
+    - name: Start pve-cluster service
+      service:
+        name: pve-cluster
+        state: started
+      when: cmap_not_active
+
+    - name: Start corosync service
+      service:
+        name: corosync
+        state: started
+      when: cmap_not_active
+
+    - name: Start pvestatd service
+      service:
+        name: pvestatd
+        state: started
+      when: cmap_not_active
+
+    - name: Start pveproxy service
+      service:
+        name: pveproxy
+        state: started
+      when: cmap_not_active
+
+    - name: Start pvedaemon service
+      service:
+        name: pvedaemon
+        state: started
+      when: cmap_not_active
+
+    - name: Check pve-cluster service status after start
+      command: service pve-cluster status
+      register: pve_cluster_status_after
+      when: cmap_not_active
+
+    - name: Check corosync service status after start
+      command: service corosync status
+      register: corosync_status_after
+      when: cmap_not_active
+
+    - name: Check pvestatd service status after start
+      command: service pvestatd status
+      register: pvestatd_status_after
+      when: cmap_not_active
+
+    - name: Check pveproxy service status after start
+      command: service pveproxy status
+      register: pveproxy_status_after
+      when: cmap_not_active
+
+    - name: Check pvedaemon service status after start
+      command: service pvedaemon status
+      register: pvedaemon_status_after
+      when: cmap_not_active
+
+    - name: Pause for 5-10 minutes
+      pause:
+        minutes: 7
+      when: cmap_not_active
